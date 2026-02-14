@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shows</title>
+</head>
+<body>
+
+<h1>Shows for {{ movie.title }}</h1>
+
+{% for show in shows %}
+    <p>
+        Date: {{ show.date }} <br>
+        Time: {{ show.time }} <br>
+        Location: {{ show.location.name }} <br>
+
+        <a href="{% url 'seat_selection' show.id %}">
+            Select Seats
+        </a>
+    </p>
+    <hr>
+{% empty %}
+    <p>No shows available for this movie.</p>
+{% endfor %}

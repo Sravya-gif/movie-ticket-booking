@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seat Selection</title>
+    <style>
+        .seat {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .available {
+            background-color: white;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        .available:hover {
+            background-color: lightgreen;
+        }
+
+        .selected {
+            background-color: green;
+            color: white;
+        }
+
+        .booked {
+            background-color: gray;
+            color: white;
+        }
+
+        .row {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .screen {
+            width: 300px;
+            margin: 30px auto;
+            padding: 10px;
+            background: black;
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .info {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Seats for {{ show.movie.title }}</h1>
+
+<p>Date: {{ show.date }}</p>
+<p>Time: {{ show.time }}</p>
+<p>Location: {{ show.location.name }}</p>
+
+<hr>
+
+<h3>Select Your Seat:</h3>
+
+<form method="POST" action="{% url 'book_seat' %}">
+    {% csrf_token %}
+
+    <!-- IMPORTANT: send show_id -->
+    <input type="hidden" name="show_id" value="{{ show.id }}">
+    <input type="hidden" name="selected_seats" id="selectedSeatsInput">
+
+    {% regroup seats by seat_number|slice:":1" as seat_rows %}
+
+    {% for row in seat_rows %}
+        <div class="row">
+            {% for seat in row.list %}
+                {% if not seat.is_booked %}
+                    <div class="seat available"
+                         onclick="toggleSeat(this)"
+                         data-id="{{ seat.id }}">
+                        {{ seat.seat_number }}
+                    </div>
+                {% else %}
+                    <div class="seat booked">
+                        {{ seat.seat_number }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <!-- SCREEN AT BOTTOM -->
+    <div class="screen">
+        SCREEN
+    </div>
+
+    <div class="info">
+        Selected Seats: <span id="seatCount">0</span>
+    </div>
+
+    <div style="text-align:center;">
+        <button type="submit">Confirm Booking</button>
+    </div>
+
+</form>
+
+<br>
+<a href="{% url 'movie_list' %}">Back to Movies</a>
+
+<script>
+let selectedSeats = [];
+
+function toggleSeat(element) {
+    let seatId = element.getAttribute("data-id");
+
+    if (element.classList.contains("selected")) {
+        element.classList.remove("selected");
+        selectedSeats = selectedSeats.filter(id => id !== seatId);
+    } else {
+        element.classList.add("selected");
+        selectedSeats.push(seatId);
+    }
+
+    document.getElementById("selectedSeatsInput").value = selectedSeats.join(",");
+    document.getElementById("seatCount").innerText = selectedSeats.length;
+}
+</script>
+
+</body>
+</html>
