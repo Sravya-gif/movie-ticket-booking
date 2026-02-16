@@ -3,21 +3,33 @@
 <head>
     <title>Shows</title>
 </head>
-<body>
+<body style="text-align:center;">
 
-<h1>Shows for {{ movie.title }}</h1>
+    <h1>🎬 Shows for {{ movie.title }}</h1>
+    <h3>📍 Location: {{ location.name }}</h3>
 
-{% for show in shows %}
-    <p>
-        Date: {{ show.date }} <br>
-        Time: {{ show.time }} <br>
-        Location: {{ show.location.name }} <br>
-
-        <a href="{% url 'seat_selection' show.id %}">
-            Select Seats
-        </a>
-    </p>
     <hr>
-{% empty %}
-    <p>No shows available for this movie.</p>
-{% endfor %}
+
+    {% for show in shows %}
+        <div style="margin-bottom:20px;">
+            <p><strong>Date:</strong> {{ show.date }}</p>
+            <p><strong>Time:</strong> {{ show.time }}</p>
+
+            <a href="{% url 'seat_selection' show.id %}">
+                <button style="padding:8px 15px;">
+                    Select Seats
+                </button>
+            </a>
+        </div>
+        <hr>
+    {% empty %}
+        <p>No shows available.</p>
+    {% endfor %}
+
+    <br>
+    <a href="{% url 'movie_list' location.id %}">
+        <button>⬅ Back to Movies</button>
+    </a>
+
+</body>
+</html>

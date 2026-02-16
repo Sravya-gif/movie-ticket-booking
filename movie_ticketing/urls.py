@@ -1,20 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import render
-
-# Home view
-def home(request):
-    return render(request, "home.html")
+from movies.views import location_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Home page first
-    path('', home, name='home'),
+    # Homepage → Location selection page
+    path('', location_list, name='home'),
 
-    # Movies page
+    # Movies
     path('movies/', include('movies.urls')),
 
-    # Booking routes
+    # Booking
     path('', include('bookings.urls')),
 ]

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Confirmed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .confirmation-box {
+            background-color: white;
+            padding: 35px 55px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .seats {
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background-color: #1b5e20;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="confirmation-box">
+        <h2>🎉 Booking Confirmed</h2>
+
+        <p><strong>Movie:</strong> {{ booking.show.movie.title }}</p>
+        <p><strong>Date:</strong> {{ booking.show.date }}</p>
+        <p><strong>Time:</strong> {{ booking.show.time }}</p>
+        <p><strong>Location:</strong> {{ booking.show.location.name }}</p>
+
+        <p><strong>Seats:</strong></p>
+        <p class="seats">
+            {% for seat in booking.seats.all %}
+                {{ seat.seat_number }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+
+        <a href="{% url 'home' %}">Back to Home</a>
+    </div>
+
+</body>
+</html>

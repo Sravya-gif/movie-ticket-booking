@@ -5,14 +5,14 @@
 </head>
 <body style="text-align:center;">
 
-    <h1>🎬 Available Movies</h1>
+    <h1>🎬 Movies in {{ location.name }}</h1>
 
     <hr>
 
     {% for movie in movies %}
         <div style="margin-bottom:30px;">
             <h2>
-                <a href="{% url 'show_list' movie.id %}">
+                <a href="{% url 'show_list' movie.id location.id %}">
                     {{ movie.title }}
                 </a>
             </h2>
@@ -20,7 +20,7 @@
             <p><strong>Language:</strong> {{ movie.language }}</p>
             <p><strong>Duration:</strong> {{ movie.duration }} minutes</p>
 
-            <a href="{% url 'show_list' movie.id %}">
+            <a href="{% url 'show_list' movie.id location.id %}">
                 <button style="padding:8px 15px;">
                     View Shows
                 </button>
@@ -30,7 +30,7 @@
         <hr>
 
     {% empty %}
-        <p>No movies available.</p>
+        <p>No movies available for this location.</p>
     {% endfor %}
 
     <br><br>

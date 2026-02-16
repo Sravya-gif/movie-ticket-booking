@@ -5,15 +5,21 @@
 </head>
 <body style="text-align:center; margin-top:100px;">
 
-    <h1>🎬 Welcome to Movie Ticket Booking</h1>
+<h1>🎬 Welcome to Movie Ticket Booking</h1>
 
-    <br><br>
+<br><br>
 
-    <a href="{% url 'movie_list' %}">
-        <button style="padding:15px 30px; font-size:18px;">
-            Book Tickets
-        </button>
-    </a>
+<h2>Select Your Location</h2>
+
+{% for location in locations %}
+    <div>
+        <a href="{% url 'movie_list' location.id %}">
+            {{ location.name }}
+        </a>
+    </div>
+{% empty %}
+    <p>No locations available.</p>
+{% endfor %}
 
 </body>
 </html>

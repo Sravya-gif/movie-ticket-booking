@@ -30,6 +30,7 @@ def seat_selection(request, show_id):
 @transaction.atomic
 def book_seat(request):
     if request.method == "POST":
+
         seat_ids = request.POST.get("selected_seats")
         show_id = request.POST.get("show_id")
 
@@ -40,26 +41,33 @@ def book_seat(request):
 
         seat_list = seat_ids.split(",")
 
-        # Lock selected seats to prevent race condition
+        # 🔒 Lock selected seats to prevent race condition
         seats = Seat.objects.select_for_update().filter(
             id__in=seat_list,
             show=show
         )
 
-        # Check if any seat already booked
+        # ❌ If any seat already booked → stop
         for seat in seats:
             if seat.is_booked:
                 return redirect("movie_list")
 
-        # Create booking
+        # ✅ Create booking
         booking = Booking.objects.create(
             user=request.user,
             show=show
         )
 
+        # ✅ Mark seats booked
         for seat in seats:
             seat.is_booked = True
             seat.save()
             booking.seats.add(seat)
 
+        # ✅ SHOW CONFIRMATION PAGE
+        return render(request, "booking_confirmation.html", {
+            "booking": booking
+        })
+
+    # If someone accesses URL directly
     return redirect("movie_list")
