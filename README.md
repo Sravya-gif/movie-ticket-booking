@@ -21,6 +21,9 @@ A Django-based web application that allows users to:
 3. Install Django
 4. Run migrations
 5. Start server
+6. Admin Access: Use `python manage.py createsuperuser` to create an admin account. 
+  The admin can log in to `/admin` panel and add/manage locations, movies, and shows.
+
 
 ## Features
 - Location-based movie filtering
