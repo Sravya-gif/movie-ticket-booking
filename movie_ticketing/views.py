@@ -3,7 +3,7 @@ from movies.models import Location
 
 def home(request):
     locations = Location.objects.all()
-    print(locations)   # 👈 TEMP DEBUG
+    print(locations)  
     return render(request, "home.html", {
         "locations": locations
     })
