@@ -1,26 +1,19 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Movie, Show
-from accounts.models import Location   # Location should come from accounts app
+from accounts.models import Location  
 
-
-# 🔹 Home Page
 def home(request):
     return render(request, "home.html")
 
-
-# 🔹 Location Selection Page
 def location_list(request):
     locations = Location.objects.all()
     return render(request, "location_selection.html", {
         "locations": locations
     })
 
-
-# 🔹 Movie List Based on Selected Location
 def movie_list(request, location_id):
     location = get_object_or_404(Location, id=location_id)
 
-    # Get movies that have shows in this location
     movies = Movie.objects.filter(
         show__location=location
     ).distinct()
@@ -31,7 +24,6 @@ def movie_list(request, location_id):
     })
 
 
-# 🔹 Show List for Selected Movie & Location
 def show_list(request, movie_id, location_id):
     movie = get_object_or_404(Movie, id=movie_id)
     location = get_object_or_404(Location, id=location_id)
