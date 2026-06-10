@@ -78,7 +78,6 @@
 <form method="POST" action="{% url 'book_seat' %}">
     {% csrf_token %}
 
-    <!-- IMPORTANT: send show_id -->
     <input type="hidden" name="show_id" value="{{ show.id }}">
     <input type="hidden" name="selected_seats" id="selectedSeatsInput">
 
@@ -102,7 +101,6 @@
         </div>
     {% endfor %}
 
-    <!-- SCREEN AT BOTTOM -->
     <div class="screen">
         SCREEN
     </div>
