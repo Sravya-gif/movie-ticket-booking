@@ -55,6 +55,5 @@ def book_seat(request):
         return render(request, "booking_confirmation.html", {
             "booking": booking
         })
-
-    # If someone accesses URL directly
+        
     return redirect("movie_list")
