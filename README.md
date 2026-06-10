@@ -1,4 +1,4 @@
-# 🎬 Movie Ticket Booking System
+# Movie Ticket Booking System
 
 A Django-based web application that allows users to:
 
